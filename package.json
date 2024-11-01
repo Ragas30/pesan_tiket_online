@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Ragas30/pesan_tiket_online#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "eslint-define-config": "^2.1.0",

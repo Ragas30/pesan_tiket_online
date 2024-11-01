@@ -22,9 +22,6 @@ const User = sequelize.define('users', {
     type: DataTypes.ENUM('super_admin','admin', 'user'),
     allowNull: false,
     defaultValue: 'user'
-  },
-  remember_token: {
-    type: DataTypes.TEXT,
   }
 }, {
   timestamps: true

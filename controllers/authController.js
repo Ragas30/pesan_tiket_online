@@ -18,19 +18,20 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return res.status(400).json({ message: 'Invalid Password' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     });
 
-    res.json({ message: 'Login success', token });
+    res.cookie('jwt', accessToken, { httpOnly: true });
+    res.json({ message: 'Login success', accessToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -43,14 +44,14 @@ const getUserById = async (req, res) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    res.status(200).json(user);
+    res.status(200).json({ results: user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 const getUsers = async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 10;
+  const page = parseInt(req.query.page, 10) || 1;
   const limit = Math.max(1, page);
   try {
     const users = await User.findAll({
@@ -75,4 +76,9 @@ const getUsers = async (req, res) => {
   }
 };
 
-export { register, login, getUserById, getUsers };
+const logout = async (req, res) => {
+  res.clearCookie('jwt');
+  res.json({ message: 'Logout successfully' });
+};
+
+export { register, login, logout, getUserById, getUsers };
