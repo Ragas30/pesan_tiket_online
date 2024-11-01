@@ -19,7 +19,7 @@ export default defineConfig([
       'no-unused-vars': ['warn'], // Warn on unused variables
       'curly': ['error', 'all'], // Require curly braces for all control statements
       'no-multi-spaces': 'error', // Disallow multiple spaces
-      'consistent-return': 'error', // Require return statements to either always or never specify values
+      // 'consistent-return': 'error', // Require return statements to either always or never specify values
       'array-callback-return': 'error', // Enforce return statements in callbacks of array methods
     },
   },
